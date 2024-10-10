@@ -2,7 +2,7 @@
 
 #include <memory.h>
 
-static inline void ring_buf_clamp(size_t *clamp, size_t limit) {
+static inline void ring_buf_clamp(ring_buf_size_t *clamp, ring_buf_size_t limit) {
   if (*clamp > limit)
     *clamp = limit;
 }
@@ -12,19 +12,19 @@ static inline void ring_buf_clamp(size_t *clamp, size_t limit) {
  * \details Used as the wrap size when claiming. The wrap size equals the head
  * relative to the base.
  */
-static inline size_t ring_buf_span_head(const struct ring_buf_span *span) {
+static inline ring_buf_size_t ring_buf_span_head(const struct ring_buf_span *span) {
   return span->head - span->base;
 }
 
-static inline size_t ring_buf_span_tail(const struct ring_buf_span *span) {
+static inline ring_buf_size_t ring_buf_span_tail(const struct ring_buf_span *span) {
   return span->tail - span->base;
 }
 
-static inline size_t ring_buf_span_claim(const struct ring_buf_span *span) {
+static inline ring_buf_size_t ring_buf_span_claim(const struct ring_buf_span *span) {
   return span->head - span->tail;
 }
 
-ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **data, size_t size) {
+ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **data, ring_buf_size_t size) {
   ring_buf_ptrdiff_t base = buf->put.base;
   ring_buf_size_t head = ring_buf_span_head(&buf->put);
   if (head >= buf->size) {
@@ -39,7 +39,7 @@ ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **data, size_t siz
   return size;
 }
 
-int ring_buf_put_finish(struct ring_buf *buf, size_t size) {
+int ring_buf_put_finish(struct ring_buf *buf, ring_buf_size_t size) {
   ring_buf_size_t claim = ring_buf_span_claim(&buf->put);
   if (size > claim)
     return -EINVAL;
@@ -49,7 +49,7 @@ int ring_buf_put_finish(struct ring_buf *buf, size_t size) {
   return 0;
 }
 
-ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data, size_t size) {
+ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data, ring_buf_size_t size) {
   ring_buf_size_t finish = 0U, claim;
   do {
     void *ptr;
@@ -62,7 +62,7 @@ ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data, size_t size
   return finish;
 }
 
-ring_buf_size_t ring_buf_get_claim(struct ring_buf *buf, void **data, size_t size) {
+ring_buf_size_t ring_buf_get_claim(struct ring_buf *buf, void **data, ring_buf_size_t size) {
   ring_buf_ptrdiff_t base = buf->get.base;
   ring_buf_size_t head = ring_buf_span_head(&buf->get);
   if (head >= buf->size) {
@@ -77,7 +77,7 @@ ring_buf_size_t ring_buf_get_claim(struct ring_buf *buf, void **data, size_t siz
   return size;
 }
 
-int ring_buf_get_finish(struct ring_buf *buf, size_t size) {
+int ring_buf_get_finish(struct ring_buf *buf, ring_buf_size_t size) {
   ring_buf_size_t claim = ring_buf_span_claim(&buf->get);
   if (size > claim)
     return -EINVAL;
@@ -87,7 +87,7 @@ int ring_buf_get_finish(struct ring_buf *buf, size_t size) {
   return 0;
 }
 
-ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data, size_t size) {
+ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data, ring_buf_size_t size) {
   ring_buf_size_t finish = 0U, claim;
   do {
     void *ptr;
