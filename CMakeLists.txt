@@ -9,6 +9,8 @@ include (CTest)
 enable_testing ()
 set (TestsToRun
     ring_buf_test.c
+    ring_buf_size_max_test.c
+    ring_buf_float_4_test.c
     ring_buf_item_test.c)
 create_test_sourcelist (Tests Testing.c ${TestsToRun})
 
