@@ -37,7 +37,7 @@ ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **data, size_t siz
   ring_buf_clamp(&size, buf->size - head);
   ring_buf_clamp(&size, ring_buf_free(buf));
   if (data)
-    *data = buf->data + (buf->put.head - base);
+    *data = (uint8_t *)buf->data + (buf->put.head - base);
   buf->put.head += size;
   return size;
 }
@@ -58,7 +58,7 @@ ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data, size_t size
     void *ptr;
     claim = ring_buf_put_claim(buf, &ptr, size);
     (void)memcpy(ptr, data, claim);
-    data += claim;
+    *(const uint8_t **)&data += claim;
     finish += claim;
   } while (claim && (size -= claim));
   (void)ring_buf_put_finish(buf, finish);
@@ -78,7 +78,7 @@ ring_buf_size_t ring_buf_get_claim(struct ring_buf *buf, void **data, size_t siz
   ring_buf_clamp(&size, buf->size - head);
   ring_buf_clamp(&size, ring_buf_used(buf));
   if (data)
-    *data = buf->data + (buf->get.head - base);
+    *data = (uint8_t *)buf->data + (buf->get.head - base);
   buf->get.head += size;
   return size;
 }
@@ -100,7 +100,7 @@ ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data, size_t size) {
     claim = ring_buf_get_claim(buf, &ptr, size);
     if (data) {
       (void)memcpy(data, ptr, claim);
-      data += claim;
+      *(uint8_t **)&data += claim;
     }
     finish += claim;
   } while (claim && (size -= claim));
