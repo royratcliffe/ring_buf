@@ -7,7 +7,7 @@ typedef ptrdiff_t ring_buf_ptrdiff_t;
 
 typedef size_t ring_buf_size_t;
 
-#define RING_BUF_SIZE_MAX ((ring_buf_size_t)PTRDIFF_MIN);
+#define RING_BUF_SIZE_MAX ((ring_buf_size_t)PTRDIFF_MIN)
 
 /*!
  * \defgroup ring_buf_span Ring Buffer Span
