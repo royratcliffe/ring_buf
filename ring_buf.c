@@ -39,7 +39,7 @@ ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **data, ring_buf_s
   return size;
 }
 
-int ring_buf_put_finish(struct ring_buf *buf, ring_buf_size_t size) {
+int ring_buf_put_ack(struct ring_buf *buf, ring_buf_size_t size) {
   ring_buf_size_t claim = ring_buf_span_claim(&buf->put);
   if (size > claim)
     return -EINVAL;
@@ -50,16 +50,15 @@ int ring_buf_put_finish(struct ring_buf *buf, ring_buf_size_t size) {
 }
 
 ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data, ring_buf_size_t size) {
-  ring_buf_size_t finish = 0U, claim;
+  ring_buf_size_t ack = 0U, claim;
   do {
     void *ptr;
     claim = ring_buf_put_claim(buf, &ptr, size);
     (void)memcpy(ptr, data, claim);
     *(const uint8_t **)&data += claim;
-    finish += claim;
+    ack += claim;
   } while (claim && (size -= claim));
-  (void)ring_buf_put_finish(buf, finish);
-  return finish;
+  return ack;
 }
 
 ring_buf_size_t ring_buf_get_claim(struct ring_buf *buf, void **data, ring_buf_size_t size) {
@@ -77,7 +76,7 @@ ring_buf_size_t ring_buf_get_claim(struct ring_buf *buf, void **data, ring_buf_s
   return size;
 }
 
-int ring_buf_get_finish(struct ring_buf *buf, ring_buf_size_t size) {
+int ring_buf_get_ack(struct ring_buf *buf, ring_buf_size_t size) {
   ring_buf_size_t claim = ring_buf_span_claim(&buf->get);
   if (size > claim)
     return -EINVAL;
@@ -88,7 +87,7 @@ int ring_buf_get_finish(struct ring_buf *buf, ring_buf_size_t size) {
 }
 
 ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data, ring_buf_size_t size) {
-  ring_buf_size_t finish = 0U, claim;
+  ring_buf_size_t ack = 0U, claim;
   do {
     void *ptr;
     claim = ring_buf_get_claim(buf, &ptr, size);
@@ -96,8 +95,7 @@ ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data, ring_buf_size_t s
       (void)memcpy(data, ptr, claim);
       *(uint8_t **)&data += claim;
     }
-    finish += claim;
+    ack += claim;
   } while (claim && (size -= claim));
-  (void)ring_buf_get_finish(buf, finish);
-  return finish;
+  return ack;
 }

@@ -53,7 +53,7 @@ static inline ring_buf_size_t ring_buf_free(const struct ring_buf *buf) {
  */
 ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **data, ring_buf_size_t size);
 
-int ring_buf_put_finish(struct ring_buf *buf, ring_buf_size_t size);
+int ring_buf_put_ack(struct ring_buf *buf, ring_buf_size_t size);
 
 ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data, ring_buf_size_t size);
 
@@ -62,7 +62,7 @@ ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data, ring_buf_si
  */
 ring_buf_size_t ring_buf_get_claim(struct ring_buf *buf, void **data, ring_buf_size_t size);
 
-int ring_buf_get_finish(struct ring_buf *buf, ring_buf_size_t size);
+int ring_buf_get_ack(struct ring_buf *buf, ring_buf_size_t size);
 
 ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data, ring_buf_size_t size);
 
