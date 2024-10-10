@@ -26,6 +26,10 @@
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <errno.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -141,3 +145,7 @@ ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data,
 /*!
  * \}
  */
+
+#ifdef __cplusplus
+}
+#endif

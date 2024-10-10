@@ -26,6 +26,10 @@
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "ring_buf.h"
 
 /*!
@@ -44,3 +48,7 @@ int ring_buf_item_put(struct ring_buf *buf, const void *data,
 
 int ring_buf_item_get(struct ring_buf *buf, void *data,
                       ring_buf_item_size_t *size);
+
+#ifdef __cplusplus
+}
+#endif
