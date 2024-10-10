@@ -24,9 +24,6 @@ static inline size_t ring_buf_span_claim(const struct ring_buf_span *span) {
   return span->head - span->tail;
 }
 
-/*!
- * \details Claims contiguous space. Advances the "put" head.
- */
 ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **data, size_t size) {
   ring_buf_ptrdiff_t base = buf->put.base;
   ring_buf_size_t head = ring_buf_span_head(&buf->put);
@@ -65,9 +62,6 @@ ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data, size_t size
   return finish;
 }
 
-/*!
- * \details Advances the "get" head.
- */
 ring_buf_size_t ring_buf_get_claim(struct ring_buf *buf, void **data, size_t size) {
   ring_buf_ptrdiff_t base = buf->get.base;
   ring_buf_size_t head = ring_buf_span_head(&buf->get);

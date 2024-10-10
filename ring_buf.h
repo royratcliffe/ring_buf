@@ -43,12 +43,18 @@ static inline size_t ring_buf_free(const struct ring_buf *buf) {
   return buf->size - (buf->put.head - buf->get.tail);
 }
 
+/*!
+ * \details Claims contiguous space. Advances the "put" head.
+ */
 ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **data, size_t size);
 
 int ring_buf_put_finish(struct ring_buf *buf, size_t size);
 
 ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data, size_t size);
 
+/*!
+ * \details Advances the "get" head.
+ */
 ring_buf_size_t ring_buf_get_claim(struct ring_buf *buf, void **data, size_t size);
 
 int ring_buf_get_finish(struct ring_buf *buf, size_t size);
