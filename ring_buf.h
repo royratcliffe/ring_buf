@@ -2,6 +2,8 @@
  * \file ring_buf.h
  * \copyright Roy Ratcliffe, Northumberland, United Kingdom
  *
+ * SPDX-License-Identifier: MIT
+ *
  * Permission is hereby granted, free of charge,  to any person obtaining a
  * copy  of  this  software  and    associated   documentation  files  (the
  * "Software"), to deal in  the   Software  without  restriction, including
@@ -35,15 +37,15 @@ typedef size_t ring_buf_size_t;
 #define RING_BUF_SIZE_MAX ((ring_buf_size_t)PTRDIFF_MIN)
 
 /*!
- * \defgroup ring_buf_span Ring Buffer Span
- * \ingroup ring_buf_span
+ * \defgroup ring_buf_zone Ring Buffer Zone
+ * \ingroup ring_buf_zone
  * \{
  */
 
 /*!
  * \details This structure needs to exist within the header.
  */
-struct ring_buf_span {
+struct ring_buf_zone {
   ring_buf_ptrdiff_t base, head, tail;
 };
 
@@ -52,12 +54,18 @@ struct ring_buf_span {
  */
 
 /*!
+ * \defgroup ring_buf Ring Buffer
+ * \ingroup ring_buf
+ * \{
+ */
+
+/*!
  * \brief Ring buffer instance.
  */
 struct ring_buf {
   void *data;
   ring_buf_size_t size;
-  struct ring_buf_span put, get;
+  struct ring_buf_zone put, get;
 };
 
 static inline ring_buf_size_t ring_buf_used(const struct ring_buf *buf) {
@@ -70,6 +78,10 @@ static inline bool ring_buf_is_empty(const struct ring_buf *buf) {
 
 static inline ring_buf_size_t ring_buf_free(const struct ring_buf *buf) {
   return buf->size - (buf->put.head - buf->get.tail);
+}
+
+static inline bool ring_buf_is_full(const struct ring_buf *buf) {
+  return ring_buf_free(buf) == 0U;
 }
 
 /*!
@@ -104,3 +116,7 @@ ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data, ring_buf_size_t s
 #define RING_BUF_DECLARE(_name_, _size_)                                       \
   static uint8_t _ring_buf_data_##_name_[_size_];                              \
   struct ring_buf _name_ = {.data = _ring_buf_data_##_name_, .size = _size_}
+
+/*!
+ * \}
+ */
