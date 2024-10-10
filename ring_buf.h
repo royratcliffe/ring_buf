@@ -2,6 +2,7 @@
 
 #include <errno.h>
 #include <stddef.h>
+#include <stdbool.h>
 
 typedef ptrdiff_t ring_buf_ptrdiff_t;
 
@@ -37,6 +38,10 @@ struct ring_buf {
 
 static inline ring_buf_size_t ring_buf_used(const struct ring_buf *buf) {
   return buf->put.tail - buf->get.head;
+}
+
+static inline bool ring_buf_is_empty(const struct ring_buf *buf) {
+  return ring_buf_used(buf) == 0U;
 }
 
 static inline ring_buf_size_t ring_buf_free(const struct ring_buf *buf) {
