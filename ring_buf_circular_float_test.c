@@ -5,7 +5,7 @@
 #include "ring_buf.h"
 
 /*
- * Use \c ring_buf_get rather than \c ring_buf_get_claim, but the former handles
+ * Use \c ring_buf_get rather than \c ring_buf_get_claim, as the former handles
  * discontiguous items. They amount to the same thing when the buffer size is a
  * multiple of the item size.
  */
