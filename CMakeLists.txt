@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.28)
+cmake_minimum_required (VERSION 3.9)
 project (ring_buf)
 
 add_library (ring_buf
@@ -19,3 +19,6 @@ foreach (test_to_run ${TestsToRun})
     get_filename_component (TestName ${test_to_run} NAME_WE)
     add_test (NAME ${TestName} COMMAND RunTests ${TestName})
 endforeach ()
+
+find_package(Doxygen)
+doxygen_add_docs(doxygen ${PROJECT_SOURCE_DIR})
