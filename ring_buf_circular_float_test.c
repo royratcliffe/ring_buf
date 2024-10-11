@@ -12,7 +12,7 @@
 int put_circular_float(struct ring_buf *buf, float number) {
   if (ring_buf_is_full(buf))
     (void)ring_buf_get_ack(buf, ring_buf_get(buf, NULL, sizeof(number)));
-  if (sizeof(number) > ring_buf_free(buf))
+  if (sizeof(number) > ring_buf_free_space(buf))
     return -EMSGSIZE;
   return ring_buf_put_ack(buf, ring_buf_put(buf, &number, sizeof(number)));
 }

@@ -28,7 +28,7 @@
 
 int ring_buf_item_put(struct ring_buf *buf, const void *data,
                       ring_buf_item_size_t size) {
-  if (sizeof(size) + size > ring_buf_free(buf))
+  if (sizeof(size) + size > ring_buf_free_space(buf))
     return -EMSGSIZE;
   const ring_buf_size_t claim = ring_buf_put(buf, &size, sizeof(size));
   return ring_buf_put_ack(buf, claim + ring_buf_put(buf, data, size));
