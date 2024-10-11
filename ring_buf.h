@@ -88,6 +88,12 @@ static inline bool ring_buf_is_full(const struct ring_buf *buf) {
   return ring_buf_free(buf) == 0U;
 }
 
+static inline void ring_buf_reset(struct ring_buf *buf,
+                                  ring_buf_ptrdiff_t base) {
+  buf->put.base = buf->put.head = buf->put.tail = buf->get.base =
+      buf->get.head = buf->get.tail = base;
+}
+
 /*!
  * \brief Claims space for putting data into a ring buffer.
  * \details Claims contiguous space. Advances the "put" head.
