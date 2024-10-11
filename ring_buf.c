@@ -54,6 +54,10 @@ ring_buf_zone_claim(const struct ring_buf_zone *zone) {
   return zone->head - zone->tail;
 }
 
+void ring_buf_zone_reset(struct ring_buf_zone *zone, ring_buf_ptrdiff_t base) {
+  zone->base = zone->head = zone->tail = base;
+}
+
 ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **space,
                                    ring_buf_size_t size) {
   ring_buf_ptrdiff_t base = buf->put.base;
@@ -78,19 +82,6 @@ int ring_buf_put_ack(struct ring_buf *buf, ring_buf_size_t size) {
   if (ring_buf_zone_tail(&buf->put) >= buf->size)
     buf->put.base += buf->size;
   return 0;
-}
-
-ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data,
-                             ring_buf_size_t size) {
-  ring_buf_size_t ack = 0U, claim;
-  do {
-    void *space;
-    claim = ring_buf_put_claim(buf, &space, size);
-    (void)memcpy(space, data, claim);
-    *(const uint8_t **)&data += claim;
-    ack += claim;
-  } while (claim && (size -= claim));
-  return ack;
 }
 
 ring_buf_size_t ring_buf_get_claim(struct ring_buf *buf, void **space,
@@ -119,6 +110,19 @@ int ring_buf_get_ack(struct ring_buf *buf, ring_buf_size_t size) {
   return 0;
 }
 
+ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data,
+                             ring_buf_size_t size) {
+  ring_buf_size_t ack = 0U, claim;
+  do {
+    void *space;
+    claim = ring_buf_put_claim(buf, &space, size);
+    (void)memcpy(space, data, claim);
+    *(const uint8_t **)&data += claim;
+    ack += claim;
+  } while (claim && (size -= claim));
+  return ack;
+}
+
 ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data,
                              ring_buf_size_t size) {
   ring_buf_size_t ack = 0U, claim;
@@ -132,4 +136,9 @@ ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data,
     ack += claim;
   } while (claim && (size -= claim));
   return ack;
+}
+
+void ring_buf_reset(struct ring_buf *buf, ring_buf_ptrdiff_t base) {
+  ring_buf_zone_reset(&buf->put, base);
+  ring_buf_zone_reset(&buf->get, base);
 }

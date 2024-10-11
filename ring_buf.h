@@ -88,12 +88,6 @@ static inline bool ring_buf_is_full(const struct ring_buf *buf) {
   return ring_buf_free_space(buf) == 0U;
 }
 
-static inline void ring_buf_reset(struct ring_buf *buf,
-                                  ring_buf_ptrdiff_t base) {
-  buf->put.base = buf->put.head = buf->put.tail = buf->get.base =
-      buf->get.head = buf->get.tail = base;
-}
-
 /*!
  * \brief Claims space for putting data into a ring buffer.
  * \details Claims contiguous space. Advances the "put" head.
@@ -105,8 +99,8 @@ ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **space,
  * \brief Acknowledges space claimed for putting data into a ring buffer.
  * \param buf Ring buffer address.
  * \param size Number of bytes to acknowledge.
- * \returns 0 Successful put.
- * \returns -EINVAL Size exceeds previously claimed aggregate space.
+ * \retval 0 Successful put.
+ * \retval -EINVAL Size exceeds previously claimed aggregate space.
  */
 int ring_buf_put_ack(struct ring_buf *buf, ring_buf_size_t size);
 
@@ -118,7 +112,7 @@ int ring_buf_put_ack(struct ring_buf *buf, ring_buf_size_t size);
  * \param buf Ring buffer.
  * \param data Address of bytes to put.
  * \param size Number of bytes to put.
- * \returns Buffer space to acknowledge in bytes.
+ * \retval Buffer space to acknowledge in bytes.
  */
 ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data,
                              ring_buf_size_t size);
@@ -137,10 +131,12 @@ int ring_buf_get_ack(struct ring_buf *buf, ring_buf_size_t size);
  * \details Copies discontinuous data.
  * \param data Address of copied data, or \c NULL to ignore.
  * \param size Number of bytes to get.
- * \returns Number of bytes to acknowledge.
+ * \retval Number of bytes to acknowledge.
  */
 ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data,
                              ring_buf_size_t size);
+
+void ring_buf_reset(struct ring_buf *buf, ring_buf_ptrdiff_t base);
 
 #include <stdint.h>
 
