@@ -28,7 +28,8 @@
 
 #include <memory.h>
 
-static inline void ring_buf_clamp(ring_buf_size_t *clamp, ring_buf_size_t limit) {
+static inline void ring_buf_clamp(ring_buf_size_t *clamp,
+                                  ring_buf_size_t limit) {
   if (*clamp > limit)
     *clamp = limit;
 }
@@ -38,19 +39,23 @@ static inline void ring_buf_clamp(ring_buf_size_t *clamp, ring_buf_size_t limit)
  * \details Used as the wrap size when claiming. The wrap size equals the head
  * relative to the base.
  */
-static inline ring_buf_size_t ring_buf_zone_head(const struct ring_buf_zone *zone) {
+static inline ring_buf_size_t
+ring_buf_zone_head(const struct ring_buf_zone *zone) {
   return zone->head - zone->base;
 }
 
-static inline ring_buf_size_t ring_buf_zone_tail(const struct ring_buf_zone *zone) {
+static inline ring_buf_size_t
+ring_buf_zone_tail(const struct ring_buf_zone *zone) {
   return zone->tail - zone->base;
 }
 
-static inline ring_buf_size_t ring_buf_zone_claim(const struct ring_buf_zone *zone) {
+static inline ring_buf_size_t
+ring_buf_zone_claim(const struct ring_buf_zone *zone) {
   return zone->head - zone->tail;
 }
 
-ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **space, ring_buf_size_t size) {
+ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **space,
+                                   ring_buf_size_t size) {
   ring_buf_ptrdiff_t base = buf->put.base;
   ring_buf_size_t head = ring_buf_zone_head(&buf->put);
   if (head >= buf->size) {
@@ -75,7 +80,8 @@ int ring_buf_put_ack(struct ring_buf *buf, ring_buf_size_t size) {
   return 0;
 }
 
-ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data, ring_buf_size_t size) {
+ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data,
+                             ring_buf_size_t size) {
   ring_buf_size_t ack = 0U, claim;
   do {
     void *space;
@@ -87,7 +93,8 @@ ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data, ring_buf_si
   return ack;
 }
 
-ring_buf_size_t ring_buf_get_claim(struct ring_buf *buf, void **space, ring_buf_size_t size) {
+ring_buf_size_t ring_buf_get_claim(struct ring_buf *buf, void **space,
+                                   ring_buf_size_t size) {
   ring_buf_ptrdiff_t base = buf->get.base;
   ring_buf_size_t head = ring_buf_zone_head(&buf->get);
   if (head >= buf->size) {
@@ -112,7 +119,8 @@ int ring_buf_get_ack(struct ring_buf *buf, ring_buf_size_t size) {
   return 0;
 }
 
-ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data, ring_buf_size_t size) {
+ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data,
+                             ring_buf_size_t size) {
   ring_buf_size_t ack = 0U, claim;
   do {
     void *space;
