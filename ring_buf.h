@@ -26,9 +26,13 @@
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <errno.h>
-#include <stddef.h>
 #include <stdbool.h>
+#include <stddef.h>
 
 typedef ptrdiff_t ring_buf_ptrdiff_t;
 
@@ -63,60 +67,87 @@ struct ring_buf_zone {
  * \brief Ring buffer instance.
  */
 struct ring_buf {
-  void *data;
+  void *space;
   ring_buf_size_t size;
   struct ring_buf_zone put, get;
 };
 
-static inline ring_buf_size_t ring_buf_used(const struct ring_buf *buf) {
+static inline ring_buf_size_t ring_buf_used_space(const struct ring_buf *buf) {
   return buf->put.tail - buf->get.head;
 }
 
 static inline bool ring_buf_is_empty(const struct ring_buf *buf) {
-  return ring_buf_used(buf) == 0U;
+  return ring_buf_used_space(buf) == 0U;
 }
 
-static inline ring_buf_size_t ring_buf_free(const struct ring_buf *buf) {
+static inline ring_buf_size_t ring_buf_free_space(const struct ring_buf *buf) {
   return buf->size - (buf->put.head - buf->get.tail);
 }
 
 static inline bool ring_buf_is_full(const struct ring_buf *buf) {
-  return ring_buf_free(buf) == 0U;
+  return ring_buf_free_space(buf) == 0U;
 }
 
 /*!
+ * \brief Claims space for putting data into a ring buffer.
  * \details Claims contiguous space. Advances the "put" head.
  */
-ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **data, ring_buf_size_t size);
+ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **space,
+                                   ring_buf_size_t size);
 
+/*!
+ * \brief Acknowledges space claimed for putting data into a ring buffer.
+ * \param buf Ring buffer address.
+ * \param size Number of bytes to acknowledge.
+ * \retval 0 Successful put.
+ * \retval -EINVAL Size exceeds previously claimed aggregate space.
+ */
 int ring_buf_put_ack(struct ring_buf *buf, ring_buf_size_t size);
 
 /*!
  * \brief Puts non-contiguous bytes into the ring buffer.
  * \details The return value may be less than the given size if the buffer runs
  * out of free space.
+ * \note Does \e not automatically acknowledge the space.
  * \param buf Ring buffer.
  * \param data Address of bytes to put.
  * \param size Number of bytes to put.
- * \returns Buffer space to acknowledge in bytes.
+ * \retval Buffer space to acknowledge in bytes.
  */
-ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data, ring_buf_size_t size);
+ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data,
+                             ring_buf_size_t size);
 
 /*!
+ * \brief Claims contiguous space for getting.
  * \details Advances the "get" head.
  */
-ring_buf_size_t ring_buf_get_claim(struct ring_buf *buf, void **data, ring_buf_size_t size);
+ring_buf_size_t ring_buf_get_claim(struct ring_buf *buf, void **space,
+                                   ring_buf_size_t size);
 
 int ring_buf_get_ack(struct ring_buf *buf, ring_buf_size_t size);
 
-ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data, ring_buf_size_t size);
+/*!
+ * \brief Gets data from a ring buffer.
+ * \details Copies discontinuous data.
+ * \param data Address of copied data, or \c NULL to ignore.
+ * \param size Number of bytes to get.
+ * \retval Number of bytes to acknowledge.
+ */
+ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data,
+                             ring_buf_size_t size);
+
+void ring_buf_reset(struct ring_buf *buf, ring_buf_ptrdiff_t base);
 
 #include <stdint.h>
 
 #define RING_BUF_DECLARE(_name_, _size_)                                       \
-  static uint8_t _ring_buf_data_##_name_[_size_];                              \
-  struct ring_buf _name_ = {.data = _ring_buf_data_##_name_, .size = _size_}
+  static uint8_t _ring_buf_space_##_name_[_size_];                             \
+  struct ring_buf _name_ = {.space = _ring_buf_space_##_name_, .size = _size_}
 
 /*!
  * \}
  */
+
+#ifdef __cplusplus
+}
+#endif

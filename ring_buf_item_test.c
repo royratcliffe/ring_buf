@@ -9,7 +9,7 @@ int ring_buf_item_test(int argc, char **argv) {
 
   {
     RING_BUF_DECLARE(buf, 1U);
-    ring_buf_item_size_t size;
+    ring_buf_item_length_t size;
     int err = ring_buf_item_get(&buf, NULL, &size);
     assert(err == -EAGAIN);
   }
@@ -20,7 +20,7 @@ int ring_buf_item_test(int argc, char **argv) {
     int err = ring_buf_item_put(&buf, &number, sizeof(number));
     assert(err == 0);
     number = 0.0F;
-    ring_buf_item_size_t size;
+    ring_buf_item_length_t size;
     err = ring_buf_item_get(&buf, &number, &size);
     assert(err == 0);
     assert(number == 123.456F);
