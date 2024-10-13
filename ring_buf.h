@@ -88,6 +88,14 @@ static inline bool ring_buf_is_full(const struct ring_buf *buf) {
   return ring_buf_free_space(buf) == 0U;
 }
 
+void ring_buf_reset(struct ring_buf *buf, ring_buf_ptrdiff_t base);
+
+/*!
+ * \defgroup ring_buf_contiguous Contiguous Ring Buffer Access
+ * \ingroup ring_buf_contiguous
+ * \{
+ */
+
 /*!
  * \brief Claims space for putting data into a ring buffer.
  * \details Claims contiguous space. Advances the "put" head.
@@ -99,23 +107,10 @@ ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **space,
  * \brief Acknowledges space claimed for putting data into a ring buffer.
  * \param buf Ring buffer address.
  * \param size Number of bytes to acknowledge.
- * \retval 0 Successful put.
- * \retval -EINVAL Size exceeds previously claimed aggregate space.
+ * \retval 0 on successful put.
+ * \retval -EINVAL if \c size exceeds previously claimed aggregate space.
  */
 int ring_buf_put_ack(struct ring_buf *buf, ring_buf_size_t size);
-
-/*!
- * \brief Puts non-contiguous bytes into the ring buffer.
- * \details The return value may be less than the given size if the buffer runs
- * out of free space.
- * \note Does \e not automatically acknowledge the space.
- * \param buf Ring buffer.
- * \param data Address of bytes to put.
- * \param size Number of bytes to put.
- * \retval Buffer space to acknowledge in bytes.
- */
-ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data,
-                             ring_buf_size_t size);
 
 /*!
  * \brief Claims contiguous space for getting.
@@ -127,16 +122,41 @@ ring_buf_size_t ring_buf_get_claim(struct ring_buf *buf, void **space,
 int ring_buf_get_ack(struct ring_buf *buf, ring_buf_size_t size);
 
 /*!
+ * \}
+ */
+
+/*!
+ * \defgroup ring_buf_discontiguous Discontiguous Ring Buffer Access
+ * \ingroup ring_buf_discontiguous
+ * \{
+ */
+
+/*!
+ * \brief Puts non-contiguous bytes into the ring buffer.
+ * \details The return value may be less than the given size if the buffer runs
+ * out of free space.
+ * \note Does \e not automatically acknowledge the space.
+ * \param buf Ring buffer.
+ * \param data Address of bytes to put.
+ * \param size Number of bytes to put.
+ * \returns Buffer space to acknowledge in bytes.
+ */
+ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data,
+                             ring_buf_size_t size);
+
+/*!
  * \brief Gets data from a ring buffer.
  * \details Copies discontinuous data.
  * \param data Address of copied data, or \c NULL to ignore.
  * \param size Number of bytes to get.
- * \retval Number of bytes to acknowledge.
+ * \returns Number of bytes to acknowledge.
  */
 ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data,
                              ring_buf_size_t size);
 
-void ring_buf_reset(struct ring_buf *buf, ring_buf_ptrdiff_t base);
+/*!
+ * \}
+ */
 
 #include <stdint.h>
 
