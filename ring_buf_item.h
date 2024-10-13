@@ -52,10 +52,10 @@ int ring_buf_item_put(struct ring_buf *buf, const void *item,
  * \brief Gets an item from a ring buffer.
  * \note The two-phase get claim cannot fail since a previous put succeeded. Do
  * \e not mix item-based puts with plain puts.
- * \param data Address of the item. Reserve sufficient space for the incoming
+ * \param item Address of the item. Reserve sufficient space for the incoming
  * bytes. There must be space for the largest possible item, since the largest
  * one possible could be next.
- * \param size Address of the length of the item on success.
+ * \param length Address of the length of the item on success.
  */
 int ring_buf_item_get(struct ring_buf *buf, void *item,
                       ring_buf_item_length_t *length);
