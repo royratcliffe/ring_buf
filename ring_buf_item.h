@@ -41,6 +41,8 @@ typedef uint16_t ring_buf_item_length_t;
 /*!
  * \details Puts an item's length and content.
  * \note Does \e not auto-acknowledge the put claim.
+ * \param item Address of item to put.
+ * \param length Number of bytes to put.
  * \returns Zero or greater on success, negative on error.
  * \retval -EMSGSIZE if the buffer has insufficient space to put the item's
  * length and data.
