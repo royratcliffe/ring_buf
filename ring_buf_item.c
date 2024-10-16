@@ -31,7 +31,7 @@ int ring_buf_item_put(struct ring_buf *buf, const void *item,
   if (sizeof(length) + length > ring_buf_free_space(buf))
     return -EMSGSIZE;
   const ring_buf_size_t claim = ring_buf_put(buf, &length, sizeof(length));
-  return ring_buf_put_ack(buf, claim + ring_buf_put(buf, item, length));
+  return claim + ring_buf_put(buf, item, length);
 }
 
 int ring_buf_item_get(struct ring_buf *buf, void *item,
@@ -39,5 +39,5 @@ int ring_buf_item_get(struct ring_buf *buf, void *item,
   if (ring_buf_is_empty(buf))
     return -EAGAIN;
   const ring_buf_size_t claim = ring_buf_get(buf, length, sizeof(*length));
-  return ring_buf_get_ack(buf, claim + ring_buf_get(buf, item, *length));
+  return claim + ring_buf_get(buf, item, *length);
 }
