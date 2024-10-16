@@ -160,7 +160,7 @@ ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data,
 
 #include <stdint.h>
 
-#define RING_BUF_DECLARE(_name_, _size_)                                       \
+#define RING_BUF_DEFINE(_name_, _size_)                                        \
   static uint8_t _ring_buf_space_##_name_[_size_];                             \
   struct ring_buf _name_ = {.space = _ring_buf_space_##_name_, .size = _size_}
 
