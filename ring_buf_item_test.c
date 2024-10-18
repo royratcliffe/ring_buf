@@ -8,21 +8,23 @@ int ring_buf_item_test(int argc, char **argv) {
   int rc = EXIT_SUCCESS;
 
   {
-    RING_BUF_DECLARE(buf, 1U);
+    RING_BUF_DEFINE(buf, 1U);
     ring_buf_item_length_t size;
     int err = ring_buf_item_get(&buf, NULL, &size);
     assert(err == -EAGAIN);
   }
 
   {
-    RING_BUF_DECLARE(buf, sizeof(float[32]));
+    RING_BUF_DEFINE(buf, sizeof(float[32]));
     float number = 123.456F;
-    int err = ring_buf_item_put(&buf, &number, sizeof(number));
-    assert(err == 0);
+    int ack = ring_buf_item_put(&buf, &number, sizeof(number));
+    assert(ack >= 0);
+    (void)ring_buf_put_ack(&buf, ack);
     number = 0.0F;
     ring_buf_item_length_t size;
-    err = ring_buf_item_get(&buf, &number, &size);
-    assert(err == 0);
+    ack = ring_buf_item_get(&buf, &number, &size);
+    assert(ack >= 0);
+    (void)ring_buf_get_ack(&buf, ack);
     assert(number == 123.456F);
     assert(size == sizeof(number));
   }
