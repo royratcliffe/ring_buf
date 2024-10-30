@@ -99,12 +99,18 @@ void ring_buf_reset(struct ring_buf *buf, ring_buf_ptrdiff_t base);
 /*!
  * \brief Claims space for putting data into a ring buffer.
  * \details Claims contiguous space. Advances the "put" head.
+ * One put operation starts with a claim. A successful claim expands the "put
+ * zone" by the requested number of bytes.
  */
 ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **space,
                                    ring_buf_size_t size);
 
 /*!
  * \brief Acknowledges space claimed for putting data into a ring buffer.
+ * \details Acknowledging the same number of bytes advances the put zone. Notice
+ * that the claim cannot span across the end of the buffer space. Buffer size
+ * less the put zone's head \e clamps the claim size. It \e cannot exceed the
+ * remaining contiguous space.
  * \param buf Ring buffer address.
  * \param size Number of bytes to acknowledge.
  * \retval 0 on successful put.
