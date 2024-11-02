@@ -153,8 +153,7 @@ int ring_buf_put_all(struct ring_buf *buf, const void *data,
   return err;
 }
 
-int ring_buf_get_all(struct ring_buf *buf, void *data,
-                     ring_buf_size_t size) {
+int ring_buf_get_all(struct ring_buf *buf, void *data, ring_buf_size_t size) {
   ring_buf_size_t ack = ring_buf_get(buf, data, size);
   int err = ack < size ? -EAGAIN : 0;
   if (err < 0)

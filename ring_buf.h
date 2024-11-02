@@ -160,9 +160,15 @@ ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data,
 ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data,
                              ring_buf_size_t size);
 
+/*!
+ * \brief Puts all or none.
+ */
 int ring_buf_put_all(struct ring_buf *buf, const void *data,
                      ring_buf_size_t size);
 
+/*!
+ * \brief Gets all or none.
+ */
 int ring_buf_get_all(struct ring_buf *buf, void *data, ring_buf_size_t size);
 
 /*!
