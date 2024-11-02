@@ -40,19 +40,24 @@ typedef uint16_t ring_buf_item_length_t;
 
 /*!
  * \details Puts an item's length and content.
- * \retval Error code; \c 0 on success, negative on error. Returns \c -EMSGSIZE
- * has insufficient space to put the item's data.
+ * \note Does \e not auto-acknowledge the put claim.
+ * \param item Address of item to put.
+ * \param length Number of bytes to put.
+ * \returns Zero or greater on success, negative on error.
+ * \retval -EMSGSIZE if the buffer has insufficient space to put the item's
+ * length and data.
  */
 int ring_buf_item_put(struct ring_buf *buf, const void *item,
                       ring_buf_item_length_t length);
 
 /*!
+ * \brief Gets an item from a ring buffer.
  * \note The two-phase get claim cannot fail since a previous put succeeded. Do
  * \e not mix item-based puts with plain puts.
- * \param data Address of the item. Reserve sufficient space for the incoming
+ * \param item Address of the item. Reserve sufficient space for the incoming
  * bytes. There must be space for the largest possible item, since the largest
  * one possible could be next.
- * \param size Address of the length of the item on success.
+ * \param length Address of the length of the item on success.
  */
 int ring_buf_item_get(struct ring_buf *buf, void *item,
                       ring_buf_item_length_t *length);

@@ -58,6 +58,11 @@ void ring_buf_zone_reset(struct ring_buf_zone *zone, ring_buf_ptrdiff_t base) {
   zone->base = zone->head = zone->tail = base;
 }
 
+void ring_buf_reset(struct ring_buf *buf, ring_buf_ptrdiff_t base) {
+  ring_buf_zone_reset(&buf->put, base);
+  ring_buf_zone_reset(&buf->get, base);
+}
+
 ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **space,
                                    ring_buf_size_t size) {
   ring_buf_ptrdiff_t base = buf->put.base;
@@ -138,7 +143,21 @@ ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data,
   return ack;
 }
 
-void ring_buf_reset(struct ring_buf *buf, ring_buf_ptrdiff_t base) {
-  ring_buf_zone_reset(&buf->put, base);
-  ring_buf_zone_reset(&buf->get, base);
+int ring_buf_put_all(struct ring_buf *buf, const void *data,
+                     ring_buf_size_t size) {
+  ring_buf_size_t ack = ring_buf_put(buf, data, size);
+  int err = ack < size ? -EMSGSIZE : 0;
+  if (err < 0)
+    ack = 0U;
+  (void)ring_buf_put_ack(buf, ack);
+  return err;
+}
+
+int ring_buf_get_all(struct ring_buf *buf, void *data, ring_buf_size_t size) {
+  ring_buf_size_t ack = ring_buf_get(buf, data, size);
+  int err = ack < size ? -EAGAIN : 0;
+  if (err < 0)
+    ack = 0U;
+  (void)ring_buf_get_ack(buf, ack);
+  return err;
 }
