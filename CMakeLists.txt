@@ -16,7 +16,8 @@ set (TestsToRun
     ring_buf_item_test.c)
 create_test_sourcelist (Tests Testing.c ${TestsToRun})
 
-add_executable (RunTests ${Tests})
+file(GLOB TEST_SOURCES "${CMAKE_SOURCE_DIR}/tests/*.c")
+add_executable (RunTests Testing.c ${TEST_SOURCES})
 target_link_libraries (RunTests ring_buf)
 
 foreach (test_to_run ${TestsToRun})
