@@ -4,6 +4,7 @@ project (ring_buf)
 add_library (ring_buf
     ring_buf.c
     ring_buf_item.c)
+target_include_directories (ring_buf PUBLIC ${PROJECT_SOURCE_DIR})
 
 include (CTest)
 enable_testing ()
