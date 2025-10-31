@@ -8,22 +8,16 @@ target_include_directories (ring_buf PUBLIC ${PROJECT_SOURCE_DIR})
 
 include (CTest)
 enable_testing ()
-set (TestsToRun
-    ring_buf_test.c
-    ring_buf_size_max_test.c
-    ring_buf_float_4_test.c
-    ring_buf_circular_float_test.c
-    ring_buf_item_test.c)
-create_test_sourcelist (Tests Testing.c ${TestsToRun})
-
-file (GLOB TEST_SOURCES "${CMAKE_SOURCE_DIR}/tests/*.c")
-add_executable (RunTests Testing.c ${TEST_SOURCES})
+file (GLOB TestsToRun "${CMAKE_SOURCE_DIR}/tests/*.c")
+add_executable (RunTests Testing.c ${TestsToRun})
 target_link_libraries (RunTests ring_buf)
 
 foreach (test_to_run ${TestsToRun})
     get_filename_component (TestName ${test_to_run} NAME_WE)
+    list (APPEND TestNames ${TestName})
     add_test (NAME ${TestName} COMMAND RunTests ${TestName})
 endforeach ()
+create_test_sourcelist (Tests Testing.c ${TestNames})
 
 find_package (Doxygen)
 if (DOXYGEN_FOUND)
