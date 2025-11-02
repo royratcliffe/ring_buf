@@ -38,17 +38,30 @@ static inline void ring_buf_clamp(ring_buf_size_t *clamp,
  * \brief Head index of a zone.
  * \details Used as the wrap size when claiming. The wrap size equals the head
  * relative to the base.
+ * \param zone Ring buffer zone.
+ * \return Head index.
  */
 static inline ring_buf_size_t
 ring_buf_zone_head(const struct ring_buf_zone *zone) {
   return zone->head - zone->base;
 }
 
+/*!
+ * \brief Tail index of a zone.
+ * \param zone Ring buffer zone.
+ * \return Tail index.
+ */
 static inline ring_buf_size_t
 ring_buf_zone_tail(const struct ring_buf_zone *zone) {
   return zone->tail - zone->base;
 }
 
+/*!
+ * \brief Claim size of a zone.
+ * \details The claim size is the difference between head and tail.
+ * \param zone Ring buffer zone.
+ * \return Claim size.
+ */
 static inline ring_buf_size_t
 ring_buf_zone_claim(const struct ring_buf_zone *zone) {
   return zone->head - zone->tail;
