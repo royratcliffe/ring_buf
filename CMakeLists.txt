@@ -3,9 +3,9 @@ project (ring_buf)
 
 add_library (ring_buf
     ring_buf.c
-    ring_buf_yield.c
     ring_buf_circ.c
-    ring_buf_item.c)
+    ring_buf_item.c
+    ring_buf_yield.c)
 target_include_directories (ring_buf PUBLIC ${PROJECT_SOURCE_DIR})
 
 include (CTest)
