@@ -24,8 +24,8 @@
  *
  * \return The number of yielded spans, or the yield result if the latter is not
  * \c -EAGAIN.
- * \note The yield function should return \c -EAGAIN to continue yielding, or any
- * other value to terminate the yielding process.
+ * \note The yield function should return \c -EAGAIN to continue yielding, or
+ * any other value to terminate the yielding process.
  * \note This function does not acknowledge the claimed space; the caller is
  * responsible for acknowledging it as needed.
  * \note This function is useful for processing data in a ring buffer in chunks.
@@ -33,8 +33,7 @@
  * specified size. This includes the case where the buffer is empty, or if the
  * remaining contiguous space is smaller than the requested chunk size.
  */
-int ring_buf_claim_yield(struct ring_buf *buf,
-                         ring_buf_size_t size,
+int ring_buf_claim_yield(struct ring_buf *buf, ring_buf_size_t size,
                          int yield(void *space, int index, void *extra),
                          void *extra);
 
@@ -55,8 +54,6 @@ int ring_buf_claim_yield(struct ring_buf *buf,
  *
  * \return The number of yields, or the yield result if it is not \c -EAGAIN.
  */
-int ring_buf_get_yield(struct ring_buf *buf,
-                       void *data,
-                       ring_buf_size_t size,
+int ring_buf_get_yield(struct ring_buf *buf, void *data, ring_buf_size_t size,
                        int yield(void *data, int index, void *extra),
                        void *extra);
