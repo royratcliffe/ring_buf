@@ -153,6 +153,7 @@ ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data,
 /*!
  * \brief Gets data from a ring buffer.
  * \details Copies discontinuous data.
+ * \param buf Ring buffer.
  * \param data Address of copied data, or \c NULL to ignore.
  * \param size Number of bytes to get.
  * \returns Number of bytes to acknowledge.
