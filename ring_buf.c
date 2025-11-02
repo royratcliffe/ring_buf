@@ -54,7 +54,8 @@ ring_buf_zone_claim(const struct ring_buf_zone *zone) {
   return zone->head - zone->tail;
 }
 
-void ring_buf_zone_reset(struct ring_buf_zone *zone, ring_buf_ptrdiff_t base) {
+static inline void ring_buf_zone_reset(struct ring_buf_zone *zone,
+                                       ring_buf_ptrdiff_t base) {
   zone->base = zone->head = zone->tail = base;
 }
 
