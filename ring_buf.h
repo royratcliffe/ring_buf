@@ -183,6 +183,14 @@ int ring_buf_get_all(struct ring_buf *buf, void *data, ring_buf_size_t size);
 
 #include <stdint.h>
 
+/*!
+ * \brief Defines a static ring buffer.
+ * \details This macro creates a ring buffer with the specified name and size.
+ * It statically allocates the ring buffer's storage space as an array of
+ * bytes.
+ * \param _name_ Name of the ring buffer.
+ * \param _size_ Size of the ring buffer.
+ */
 #define RING_BUF_DEFINE(_name_, _size_)                                        \
   static uint8_t _ring_buf_space_##_name_[_size_];                             \
   static struct ring_buf _name_ = {.space = _ring_buf_space_##_name_,          \
