@@ -1,3 +1,8 @@
+/*!
+ * \file ring_buf_circ.c
+ * \brief Circular ring buffer function implementations.
+ */
+
 #include "ring_buf_circ.h"
 #include "ring_buf.h"
 

@@ -1,3 +1,8 @@
+/*!
+ * \file ring_buf_circ.h
+ * \brief Circular ring buffer function prototypes.
+ */
+
 #pragma once
 
 #include <stddef.h>
