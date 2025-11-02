@@ -7,9 +7,9 @@
 
 #include "ring_buf_yield.h"
 
-int ring_buf_claim_yield(struct ring_buf *buf, ring_buf_size_t size,
-                         int yield(void *space, int index, void *extra),
-                         void *extra) {
+int ring_buf_get_claim_yield(struct ring_buf *buf, ring_buf_size_t size,
+                             int yield(void *space, int index, void *extra),
+                             void *extra) {
   int index = 0;
   void *space;
   while (ring_buf_get_claim(buf, &space, size) == size) {

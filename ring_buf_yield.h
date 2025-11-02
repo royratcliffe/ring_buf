@@ -33,9 +33,9 @@
  * specified size. This includes the case where the buffer is empty, or if the
  * remaining contiguous space is smaller than the requested chunk size.
  */
-int ring_buf_claim_yield(struct ring_buf *buf, ring_buf_size_t size,
-                         int yield(void *space, int index, void *extra),
-                         void *extra);
+int ring_buf_get_claim_yield(struct ring_buf *buf, ring_buf_size_t size,
+                             int yield(void *space, int index, void *extra),
+                             void *extra);
 
 /*!
  * \brief Copies buffer space and yields it to a callback function.
