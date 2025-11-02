@@ -162,6 +162,12 @@ ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data,
 
 /*!
  * \brief Puts all or none.
+ * \details Puts all the given data into the ring buffer or puts nothing.
+ * Returns an error if there is insufficient space.
+ * \param buf Ring buffer.
+ * \param data Address of bytes to put.
+ * \param size Number of bytes to put.
+ * \returns 0 on success, \c -EMSGSIZE if the data will not fit.
  */
 int ring_buf_put_all(struct ring_buf *buf, const void *data,
                      ring_buf_size_t size);
