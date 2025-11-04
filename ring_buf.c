@@ -28,6 +28,14 @@
 
 #include <memory.h>
 
+/*!
+ * \brief Clamp a value to a specified limit.
+ * \details Clamps the value pointed to by \p clamp to \p limit if it exceeds
+ * the limit.
+ * \param clamp Pointer to the value to clamp.
+ * \param limit The limit to clamp the value to.
+ * \returns None.
+ */
 static inline void ring_buf_clamp(ring_buf_size_t *clamp,
                                   ring_buf_size_t limit) {
   if (*clamp > limit)
