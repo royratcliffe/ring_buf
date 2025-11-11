@@ -1,6 +1,11 @@
 /*!
  * \file ring_buf.c
- * \copyright Roy Ratcliffe, Northumberland, United Kingdom
+ * \brief Ring buffer functions.
+ * \details Implements ring buffer functions for putting and getting data,
+ * including contiguous and discontiguous access methods. Also includes
+ * functions for acknowledging put and get operations, as well as resetting
+ * the buffer.
+ * \copyright 2024, 2025, Roy Ratcliffe, Northumberland, United Kingdom
  *
  * SPDX-License-Identifier: MIT
  *
