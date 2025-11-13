@@ -5,6 +5,8 @@
 #include "ring_buf.h"
 
 int ring_buf_float_4_test(int argc, char **argv) {
+  (void)argc;
+  (void)argv;
   RING_BUF_DEFINE(buf, sizeof(float[4U]));
   float number = 1.0F;
   ring_buf_size_t ack;
