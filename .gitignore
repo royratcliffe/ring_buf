@@ -1,2 +1,8 @@
+# Git ignore file
 
+# Ignore build output directories
 /build
+
+# Visual Studio files
+/.vs
+/out

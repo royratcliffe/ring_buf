@@ -5,6 +5,8 @@
 #include "ring_buf_item.h"
 
 int ring_buf_item_test(int argc, char **argv) {
+  (void)argc;
+  (void)argv;
   int rc = EXIT_SUCCESS;
 
   {

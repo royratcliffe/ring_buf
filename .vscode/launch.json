@@ -8,9 +8,9 @@
             "name": "(Windows) Launch",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/Debug/RunTests.exe",
+            "program": "${cmake.testProgram}",
             "args": [
-                "-A"
+                "${cmake.testArgs}"
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

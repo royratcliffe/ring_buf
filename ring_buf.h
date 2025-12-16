@@ -47,7 +47,14 @@ typedef size_t ring_buf_size_t;
  */
 
 /*!
- * \details This structure needs to exist within the header.
+ * \brief Ring buffer zone.
+ * \details A ring buffer contains two zones: one for putting data and one for
+ * getting data. Each zone has a base, head, and tail pointer. Pointer here
+ * refers to a signed zero-based index (ring_buf_ptrdiff_t) relative to the
+ * buffer's start. The base pointer marks the beginning of the zone, while the
+ * head pointer marks the end of the zone. The tail pointer is used to track the
+ * position of the oldest data in the zone.
+ * \note This structure needs to exist within the header.
  */
 struct ring_buf_zone {
   ring_buf_ptrdiff_t base, head, tail;
@@ -101,6 +108,13 @@ void ring_buf_reset(struct ring_buf *buf, ring_buf_ptrdiff_t base);
  * \details Claims contiguous space. Advances the "put" head.
  * One put operation starts with a claim. A successful claim expands the "put
  * zone" by the requested number of bytes.
+ * \note The claim cannot span across the end of the buffer space. Buffer size
+ * less the put zone's head \e clamps the claim size. It \e cannot exceed the
+ * remaining contiguous space.
+ * \param buf Ring buffer address.
+ * \param space Address of pointer to claimed space, or \c NULL to ignore.
+ * \param size Number of bytes to claim.
+ * \returns Number of bytes claimed.
  */
 ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **space,
                                    ring_buf_size_t size);
@@ -153,6 +167,7 @@ ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data,
 /*!
  * \brief Gets data from a ring buffer.
  * \details Copies discontinuous data.
+ * \param buf Ring buffer.
  * \param data Address of copied data, or \c NULL to ignore.
  * \param size Number of bytes to get.
  * \returns Number of bytes to acknowledge.
@@ -162,6 +177,12 @@ ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data,
 
 /*!
  * \brief Puts all or none.
+ * \details Puts all the given data into the ring buffer or puts nothing.
+ * Returns an error if there is insufficient space.
+ * \param buf Ring buffer.
+ * \param data Address of bytes to put.
+ * \param size Number of bytes to put.
+ * \returns 0 on success, \c -EMSGSIZE if the data will not fit.
  */
 int ring_buf_put_all(struct ring_buf *buf, const void *data,
                      ring_buf_size_t size);
@@ -177,6 +198,14 @@ int ring_buf_get_all(struct ring_buf *buf, void *data, ring_buf_size_t size);
 
 #include <stdint.h>
 
+/*!
+ * \brief Defines a static ring buffer.
+ * \details This macro creates a ring buffer with the specified name and size.
+ * It statically allocates the ring buffer's storage space as an array of
+ * bytes.
+ * \param _name_ Name of the ring buffer.
+ * \param _size_ Size of the ring buffer.
+ */
 #define RING_BUF_DEFINE(_name_, _size_)                                        \
   static uint8_t _ring_buf_space_##_name_[_size_];                             \
   static struct ring_buf _name_ = {.space = _ring_buf_space_##_name_,          \

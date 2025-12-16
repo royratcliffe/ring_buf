@@ -1,6 +1,11 @@
 /*!
  * \file ring_buf.c
- * \copyright Roy Ratcliffe, Northumberland, United Kingdom
+ * \brief Ring buffer functions.
+ * \details Implements ring buffer functions for putting and getting data,
+ * including contiguous and discontiguous access methods. Also includes
+ * functions for acknowledging put and get operations, as well as resetting
+ * the buffer.
+ * \copyright 2024, 2025, Roy Ratcliffe, Northumberland, United Kingdom
  *
  * SPDX-License-Identifier: MIT
  *
@@ -28,6 +33,14 @@
 
 #include <memory.h>
 
+/*!
+ * \brief Clamp a value to a specified limit.
+ * \details Clamps the value pointed to by \p clamp to \p limit if it exceeds
+ * the limit.
+ * \param clamp Pointer to the value to clamp.
+ * \param limit The limit to clamp the value to.
+ * \returns None.
+ */
 static inline void ring_buf_clamp(ring_buf_size_t *clamp,
                                   ring_buf_size_t limit) {
   if (*clamp > limit)
@@ -38,23 +51,37 @@ static inline void ring_buf_clamp(ring_buf_size_t *clamp,
  * \brief Head index of a zone.
  * \details Used as the wrap size when claiming. The wrap size equals the head
  * relative to the base.
+ * \param zone Ring buffer zone.
+ * \return Head index.
  */
 static inline ring_buf_size_t
 ring_buf_zone_head(const struct ring_buf_zone *zone) {
   return zone->head - zone->base;
 }
 
+/*!
+ * \brief Tail index of a zone.
+ * \param zone Ring buffer zone.
+ * \return Tail index.
+ */
 static inline ring_buf_size_t
 ring_buf_zone_tail(const struct ring_buf_zone *zone) {
   return zone->tail - zone->base;
 }
 
+/*!
+ * \brief Claim size of a zone.
+ * \details The claim size is the difference between head and tail.
+ * \param zone Ring buffer zone.
+ * \return Claim size.
+ */
 static inline ring_buf_size_t
 ring_buf_zone_claim(const struct ring_buf_zone *zone) {
   return zone->head - zone->tail;
 }
 
-void ring_buf_zone_reset(struct ring_buf_zone *zone, ring_buf_ptrdiff_t base) {
+static inline void ring_buf_zone_reset(struct ring_buf_zone *zone,
+                                       ring_buf_ptrdiff_t base) {
   zone->base = zone->head = zone->tail = base;
 }
 
