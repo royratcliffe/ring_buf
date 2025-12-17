@@ -31,7 +31,7 @@
 
 #include "ring_buf.h"
 
-#include <memory.h>
+#include <string.h>
 
 /*!
  * \brief Clamp a value to a specified limit.
