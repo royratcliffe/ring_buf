@@ -5,7 +5,8 @@
  * yielding of ring buffer space to a callback function.
  */
 
-#pragma once
+#ifndef __RING_BUF_YIELD_H__
+#define __RING_BUF_YIELD_H__
 
 #include "ring_buf.h"
 
@@ -57,3 +58,5 @@ int ring_buf_get_claim_yield(struct ring_buf *buf, ring_buf_size_t size,
 int ring_buf_get_yield(struct ring_buf *buf, void *data, ring_buf_size_t size,
                        int yield(void *data, int index, void *extra),
                        void *extra);
+
+#endif /* __RING_BUF_YIELD_H__ */

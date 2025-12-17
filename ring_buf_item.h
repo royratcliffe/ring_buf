@@ -24,7 +24,8 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#ifndef __RING_BUF_ITEM_H__
+#define __RING_BUF_ITEM_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -65,3 +66,5 @@ int ring_buf_item_get(struct ring_buf *buf, void *item,
 #ifdef __cplusplus
 }
 #endif
+
+#endif /* __RING_BUF_ITEM_H__ */

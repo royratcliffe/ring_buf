@@ -3,7 +3,8 @@
  * \brief Circular ring buffer function prototypes.
  */
 
-#pragma once
+#ifndef __RING_BUF_CIRC_H__
+#define __RING_BUF_CIRC_H__
 
 #include <stddef.h>
 
@@ -21,3 +22,5 @@ struct ring_buf;
  * size is a multiple of the item size.
  */
 int ring_buf_put_circ(struct ring_buf *buf, void *data, size_t size);
+
+#endif /* __RING_BUF_CIRC_H__ */
