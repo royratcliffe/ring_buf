@@ -35,6 +35,10 @@ extern "C" {
 #include <stdbool.h>
 #include <stddef.h>
 
+#ifndef EMSGSIZE
+#define EMSGSIZE 115
+#endif
+
 typedef ptrdiff_t ring_buf_ptrdiff_t;
 
 typedef size_t ring_buf_size_t;
