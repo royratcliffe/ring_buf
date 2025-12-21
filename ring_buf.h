@@ -36,6 +36,11 @@ extern "C" {
 #include <stddef.h>
 
 #ifndef EMSGSIZE
+/*!
+ * \brief Message size error code.
+ * \details Error code indicating that a message is too large to fit in
+ * a ring buffer.
+ */
 #define EMSGSIZE 115
 #endif
 
