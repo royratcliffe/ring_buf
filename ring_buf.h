@@ -24,7 +24,8 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#ifndef __RING_BUF_H__
+#define __RING_BUF_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -33,6 +34,15 @@ extern "C" {
 #include <errno.h>
 #include <stdbool.h>
 #include <stddef.h>
+
+#ifndef EMSGSIZE
+/*!
+ * \brief Message size error code.
+ * \details Error code indicating that a message is too large to fit in
+ * a ring buffer.
+ */
+#define EMSGSIZE 115
+#endif
 
 typedef ptrdiff_t ring_buf_ptrdiff_t;
 
@@ -218,3 +228,5 @@ int ring_buf_get_all(struct ring_buf *buf, void *data, ring_buf_size_t size);
 #ifdef __cplusplus
 }
 #endif
+
+#endif /* __RING_BUF_H__ */
