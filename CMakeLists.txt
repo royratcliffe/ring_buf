@@ -1,6 +1,9 @@
 cmake_minimum_required (VERSION 3.11)
 project (ring_buf)
 
+# Use C99 standard.
+set(CMAKE_C_STANDARD 99)
+
 add_library (ring_buf
     ${PROJECT_SOURCE_DIR}/src/ring_buf.c
     ${PROJECT_SOURCE_DIR}/src/ring_buf_circ.c
