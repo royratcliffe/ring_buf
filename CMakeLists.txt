@@ -2,11 +2,11 @@ cmake_minimum_required (VERSION 3.11)
 project (ring_buf)
 
 add_library (ring_buf
-    ring_buf.c
-    ring_buf_circ.c
-    ring_buf_item.c
-    ring_buf_yield.c)
-target_include_directories (ring_buf PUBLIC ${PROJECT_SOURCE_DIR})
+    ${PROJECT_SOURCE_DIR}/src/ring_buf.c
+    ${PROJECT_SOURCE_DIR}/src/ring_buf_circ.c
+    ${PROJECT_SOURCE_DIR}/src/ring_buf_item.c
+    ${PROJECT_SOURCE_DIR}/src/ring_buf_yield.c)
+target_include_directories (ring_buf PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 include (CTest)
 enable_testing ()
