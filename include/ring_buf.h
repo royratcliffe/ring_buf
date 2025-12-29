@@ -112,18 +112,47 @@ struct ring_buf {
   struct ring_buf_zone put, get;
 };
 
+/*!
+ * \brief Calculates used space in the ring buffer.
+ * \details Computes the number of bytes currently used in the ring buffer.
+ * \param buf Ring buffer.
+ * \returns Number of used bytes.
+ */
 static inline ring_buf_size_t ring_buf_used_space(const struct ring_buf *buf) {
   return buf->put.tail - buf->get.head;
 }
 
+/*!
+ * \brief Checks if the ring buffer is empty.
+ * \details Determines whether the ring buffer has no used space. A ring buffer
+ * is considered empty when the used space is zero.
+ * \param buf Ring buffer.
+ * \retval true if the buffer is empty.
+ * \retval false otherwise.
+ */
 static inline bool ring_buf_is_empty(const struct ring_buf *buf) {
   return ring_buf_used_space(buf) == 0U;
 }
 
+/*!
+ * \brief Calculates free space in the ring buffer.
+ * \details Computes the number of bytes currently available for use in the
+ * ring buffer.
+ * \param buf Ring buffer.
+ * \returns Number of free bytes.
+ */
 static inline ring_buf_size_t ring_buf_free_space(const struct ring_buf *buf) {
   return buf->size - (buf->put.head - buf->get.tail);
 }
 
+/*!
+ * \brief Checks if the ring buffer is full.
+ * \details Determines whether the ring buffer has no free space. A ring buffer
+ * is considered full when the free space is zero.
+ * \param buf Ring buffer.
+ * \retval true if the buffer is full.
+ * \retval false if not full.
+ */
 static inline bool ring_buf_is_full(const struct ring_buf *buf) {
   return ring_buf_free_space(buf) == 0U;
 }
