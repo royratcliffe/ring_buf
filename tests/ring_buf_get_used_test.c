@@ -13,7 +13,7 @@ int ring_buf_get_used_test(int argc, char **argv)
    * Define and reset ring buffer.
    * The base index is set to sizeof(int[2]) to test non-zero bases.
    */
-  RING_BUF_DEFINE(buf, sizeof(int[4]));
+  RING_BUF_DEFINE_STATIC(buf, sizeof(int[4]));
   ring_buf_reset(&buf, sizeof(int[2]));
 
   /*

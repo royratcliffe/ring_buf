@@ -17,7 +17,7 @@ int ring_buf_yield_test(int argc, char **argv)
   int rc = EXIT_SUCCESS;
 
   {
-    RING_BUF_DEFINE(buf, 64U);
+    RING_BUF_DEFINE_STATIC(buf, 64U);
     for (const char *p = "Hello, World!"; *p != '\0'; p++)
       assert(ring_buf_put_ack(&buf, ring_buf_put(&buf, p, sizeof(*p))) == 0);
     assert(ring_buf_get_claim_yield(&buf, sizeof(char), yield_putchar, stdout) == 13);

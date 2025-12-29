@@ -305,7 +305,7 @@ int ring_buf_get_all(struct ring_buf *buf, void *data, ring_buf_size_t size);
  * \param _name_ Name of the ring buffer.
  * \param _size_ Size of the ring buffer.
  */
-#define RING_BUF_DEFINE(_name_, _size_)                                        \
+#define RING_BUF_DEFINE_STATIC(_name_, _size_)                                 \
   static uint8_t _ring_buf_space_##_name_[_size_];                             \
   static struct ring_buf _name_ = {.space = _ring_buf_space_##_name_,          \
                                    .size = _size_}

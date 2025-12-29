@@ -12,7 +12,7 @@ int put_circular_float(struct ring_buf *buf, float number) {
 int ring_buf_circular_float_test(int argc, char **argv) {
   (void)argc;
   (void)argv;
-  RING_BUF_DEFINE(buf, sizeof(float[2U]));
+  RING_BUF_DEFINE_STATIC(buf, sizeof(float[2U]));
 
   /*
    * Reset the buffer to a size just below the maximum. This forces the buffer
