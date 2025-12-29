@@ -296,6 +296,12 @@ int ring_buf_get_all(struct ring_buf *buf, void *data, ring_buf_size_t size);
  * \details This macro creates a ring buffer with the specified name and size.
  * It statically allocates the ring buffer's storage space as an array of
  * bytes.
+ *
+ * It correctly initialises the ring buffer structure with a pointer to the
+ * allocated space and sets the size. The put and get zones are initialised to
+ * zero by default. This assumes that the compiler will zero-initialise static
+ * storage, i.e. allocated storage in the Blank Static Storage section. There is
+ * not need to explicitly reset the ring buffer before use.
  * \param _name_ Name of the ring buffer.
  * \param _size_ Size of the ring buffer.
  */
