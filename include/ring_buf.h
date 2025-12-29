@@ -89,10 +89,26 @@ struct ring_buf_zone {
 
 /*!
  * \brief Ring buffer instance.
+ * \details Represents a ring buffer with its associated data and zones for
+ * putting and getting data.
+ * \note This structure needs to exist within the header.
  */
 struct ring_buf {
+  /*!
+   * \brief Pointer to the buffer's data space.
+   * \details Points to the memory area where the ring buffer's data is stored.
+   */
   void *space;
+  /*!
+   * \brief Size of the ring buffer.
+   * \details Indicates the total size of the buffer in bytes.
+   */
   ring_buf_size_t size;
+  /*!
+   * \brief Put and get zones.
+   * \details Contains the zones for putting and getting data in the ring
+   * buffer.
+   */
   struct ring_buf_zone put, get;
 };
 
@@ -112,6 +128,13 @@ static inline bool ring_buf_is_full(const struct ring_buf *buf) {
   return ring_buf_free_space(buf) == 0U;
 }
 
+/*!
+ * \brief Resets a ring buffer.
+ * \details Resets both put and get zones to the specified base index.
+ * The base index typically starts at zero but can be set to any value.
+ * \param buf Ring buffer.
+ * \param base Base index for both put and get zones.
+ */
 void ring_buf_reset(struct ring_buf *buf, ring_buf_ptrdiff_t base);
 
 /*!
@@ -215,12 +238,13 @@ int ring_buf_put_all(struct ring_buf *buf, const void *data,
 
 /*!
  * \brief Gets all or none.
-  * \details Gets all the requested data from the ring buffer or none at all.
-  * Returns an error if there is insufficient data.
+ * \details Gets all the requested data from the ring buffer or gets nothing.
+ * Returns an error if there is insufficient data.
  * \param buf Ring buffer.
- * \param data Address of bytes to get.
+ * \param data Address of copied data.
  * \param size Number of bytes to get.
- * \returns 0 on success, \c -EAGAIN if insufficient data is available.
+ * \retval 0 on success
+ * \retval -EMSGSIZE if insufficient data is available.
  */
 int ring_buf_get_all(struct ring_buf *buf, void *data, ring_buf_size_t size);
 
