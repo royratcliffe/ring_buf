@@ -1,8 +1,15 @@
+/*
+ * SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2024, 2025, Roy Ratcliffe, Northumberland, United Kingdom
+ */
 /*!
  * \file ring_buf.h
- * \copyright Roy Ratcliffe, Northumberland, United Kingdom
- *
- * SPDX-License-Identifier: MIT
+ * \brief Ring buffer function prototypes.
+ * \details Declares ring buffer functions for putting and getting data,
+ * including contiguous and discontiguous access methods. Also includes
+ * functions for acknowledging put and get operations, as well as resetting the
+ * buffer.
+ * \copyright 2024, 2025, Roy Ratcliffe, Northumberland, United Kingdom
  *
  * Permission is hereby granted, free of charge,  to any person obtaining a
  * copy  of  this  software  and    associated   documentation  files  (the

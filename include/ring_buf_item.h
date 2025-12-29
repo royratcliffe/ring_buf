@@ -1,3 +1,7 @@
+/*
+ * SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2024, 2025, Roy Ratcliffe, Northumberland, United Kingdom
+ */
 /*!
  * \file ring_buf_item.h
  * \copyright Roy Ratcliffe, Northumberland, United Kingdom

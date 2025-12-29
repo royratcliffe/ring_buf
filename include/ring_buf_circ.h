@@ -1,3 +1,7 @@
+/*
+ * SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2024, 2025, Roy Ratcliffe, Northumberland, United Kingdom
+ */
 /*!
  * \file ring_buf_circ.h
  * \brief Circular ring buffer function prototypes.
