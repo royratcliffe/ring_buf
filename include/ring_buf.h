@@ -152,6 +152,15 @@ int ring_buf_put_ack(struct ring_buf *buf, ring_buf_size_t size);
 /*!
  * \brief Claims contiguous space for getting.
  * \details Advances the "get" head.
+ * One get operation starts with a claim. A successful claim expands the "get
+ * zone" by the requested number of bytes.
+ * \note The claim cannot span across the end of the buffer space. Buffer size
+ * less the get zone's head \e clamps the claim size. It \e cannot exceed the
+ * remaining contiguous space.
+ * \param buf Ring buffer address.
+ * \param space Address of pointer to claimed space, or \c NULL to ignore.
+ * \param size Number of bytes to claim.
+ * \returns Number of bytes claimed.
  */
 ring_buf_size_t ring_buf_get_claim(struct ring_buf *buf, void **space,
                                    ring_buf_size_t size);
@@ -206,6 +215,12 @@ int ring_buf_put_all(struct ring_buf *buf, const void *data,
 
 /*!
  * \brief Gets all or none.
+  * \details Gets all the requested data from the ring buffer or none at all.
+  * Returns an error if there is insufficient data.
+ * \param buf Ring buffer.
+ * \param data Address of bytes to get.
+ * \param size Number of bytes to get.
+ * \returns 0 on success, \c -EAGAIN if insufficient data is available.
  */
 int ring_buf_get_all(struct ring_buf *buf, void *data, ring_buf_size_t size);
 
