@@ -51,10 +51,23 @@ extern "C" {
 #define EMSGSIZE 115
 #endif
 
+/*!
+ * \brief Ring buffer pointer difference type.
+ * \details Signed type used for pointer arithmetic within the ring buffer.
+ */
 typedef ptrdiff_t ring_buf_ptrdiff_t;
 
+/*!
+ * \brief Ring buffer size type.
+ * \details Unsigned type used for sizes within the ring buffer.
+ */
 typedef size_t ring_buf_size_t;
 
+/*!
+ * \brief Maximum ring buffer size.
+ * \details Defines the maximum size of the ring buffer based on the minimum
+ * value of the pointer difference type.
+ */
 #define RING_BUF_SIZE_MAX ((ring_buf_size_t)PTRDIFF_MIN)
 
 /*!
