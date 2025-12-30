@@ -1,6 +1,5 @@
 # Ring Buffers
 
-
 What are ring buffers[^1] and why are they useful? The “ring” in “ring
 buffer” refers to fixed-size memory space under continuous cyclic reuse.
 The structure is a FIFO[^2] container, ideal for stream buffering where

@@ -1,12 +1,15 @@
 cmake_minimum_required (VERSION 3.11)
 project (ring_buf)
 
+# Use C99 standard.
+set(CMAKE_C_STANDARD 99)
+
 add_library (ring_buf
-    ring_buf.c
-    ring_buf_circ.c
-    ring_buf_item.c
-    ring_buf_yield.c)
-target_include_directories (ring_buf PUBLIC ${PROJECT_SOURCE_DIR})
+    ${PROJECT_SOURCE_DIR}/src/ring_buf.c
+    ${PROJECT_SOURCE_DIR}/src/ring_buf_circ.c
+    ${PROJECT_SOURCE_DIR}/src/ring_buf_item.c
+    ${PROJECT_SOURCE_DIR}/src/ring_buf_yield.c)
+target_include_directories (ring_buf PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 include (CTest)
 enable_testing ()
@@ -30,5 +33,9 @@ create_test_sourcelist (Tests Testing.c ${TestNames})
 
 find_package (Doxygen)
 if (DOXYGEN_FOUND)
+set (DOXYGEN_OPTIMIZE_OUTPUT_FOR_C YES)
+set (DOXYGEN_EXTRACT_STATIC YES)
+set (DOXYGEN_SOURCE_BROWSER YES)
+set (DOXYGEN_EXCLUDE ${PROJECT_BINARY_DIR}/Testing.c)
 doxygen_add_docs (doxygen ${PROJECT_SOURCE_DIR})
 endif ()

@@ -10,14 +10,14 @@ int ring_buf_item_test(int argc, char **argv) {
   int rc = EXIT_SUCCESS;
 
   {
-    RING_BUF_DEFINE(buf, 1U);
+    RING_BUF_DEFINE_STATIC(buf, 1U);
     ring_buf_item_length_t size;
     int err = ring_buf_item_get(&buf, NULL, &size);
     assert(err == -EAGAIN);
   }
 
   {
-    RING_BUF_DEFINE(buf, sizeof(float[32]));
+    RING_BUF_DEFINE_STATIC(buf, sizeof(float[32]));
     float number = 123.456F;
     int ack = ring_buf_item_put(&buf, &number, sizeof(number));
     assert(ack >= 0);

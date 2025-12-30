@@ -1,8 +1,12 @@
-/*!
- * \file ring_buf_item.c
- * \copyright Roy Ratcliffe, Northumberland, United Kingdom
- *
+/*
  * SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2024, Roy Ratcliffe, Northumberland, United Kingdom
+ */
+/*!
+ * \file ring_buf_circ.c
+ * \brief Circular ring buffer function implementations.
+ * \details Implements functions for putting data into a circular ring buffer.
+ * \copyright 2024, 2025, Roy Ratcliffe, Northumberland, United Kingdom
  *
  * Permission is hereby granted, free of charge,  to any person obtaining a
  * copy  of  this  software  and    associated   documentation  files  (the
@@ -24,20 +28,21 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "ring_buf_item.h"
+#include "ring_buf_circ.h"
+#include "ring_buf.h"
 
-int ring_buf_item_put(struct ring_buf *buf, const void *item,
-                      ring_buf_item_length_t length) {
-  if (sizeof(length) + length > ring_buf_free_space(buf))
+/*
+ * Add a new item to the ring buffer. If the circular buffer is full, remove the
+ * oldest item first.
+ *
+ * Fail if the new data will not fit. This should not happen if the buffer is
+ * sized correctly. It will never happen if the buffer size is a multiple of the
+ * data size.
+ */
+int ring_buf_put_circ(struct ring_buf *buf, void *data, size_t size) {
+  if (ring_buf_is_full(buf))
+    (void)ring_buf_get_ack(buf, ring_buf_get(buf, NULL, size));
+  if (size > ring_buf_free_space(buf))
     return -EMSGSIZE;
-  const ring_buf_size_t claim = ring_buf_put(buf, &length, sizeof(length));
-  return claim + ring_buf_put(buf, item, length);
-}
-
-int ring_buf_item_get(struct ring_buf *buf, void *item,
-                      ring_buf_item_length_t *length) {
-  if (ring_buf_is_empty(buf))
-    return -EAGAIN;
-  const ring_buf_size_t claim = ring_buf_get(buf, length, sizeof(*length));
-  return claim + ring_buf_get(buf, item, *length);
+  return ring_buf_put_ack(buf, ring_buf_put(buf, data, size));
 }
