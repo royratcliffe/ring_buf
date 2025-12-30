@@ -39,7 +39,7 @@ int ring_buf_get_used_test(int argc, char **argv)
   assert(data != NULL);
   ring_buf_size_t ack = ring_buf_get(&buf, data, len * sizeof(int));
   assert(ack == len * sizeof(int));
-  ring_buf_get_ack(&buf, 0);
+  assert(ring_buf_get_ack(&buf, 0) == 0);
 
   /*
    * Verify the copied data. The data should be 1, 2, 3, 4 in that order.
