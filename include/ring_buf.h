@@ -304,7 +304,7 @@ int ring_buf_put_all(struct ring_buf *buf, const void *data,
  * \param data Address of copied data.
  * \param size Number of bytes to get.
  * \retval 0 on success
- * \retval -EMSGSIZE if insufficient data is available.
+ * \retval -EAGAIN if insufficient data is available.
  */
 int ring_buf_get_all(struct ring_buf *buf, void *data, ring_buf_size_t size);
 
