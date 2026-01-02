@@ -33,7 +33,7 @@ kind of collection structure is a memory-limited embedded device of some
 sort. The C99 code needs access to basic types: fast unsigned and signed
 integers.
 
-![Ring buffer class diagram](ring-buf.svg)
+![Ring buffer class diagram](images/ring-buf.svg)
 
 Find the complete implementation on
 [GitHub](https://github.com/royratcliffe/ring_buf).
