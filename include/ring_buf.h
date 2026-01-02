@@ -72,6 +72,12 @@ typedef size_t ring_buf_size_t;
 
 /*!
  * \defgroup ring_buf_zone Ring Buffer Zone
+ * \details A ring buffer contains two zones: one for putting data and one for
+ * getting data. Each zone has a base, head, and tail pointer. Pointer here
+ * refers to a signed zero-based index (i.e. a \c ring_buf_ptrdiff_t type) relative to the
+ * buffer's start. The base pointer marks the beginning of the zone, while the
+ * head pointer marks the end of the zone. The tail pointer is used to track the
+ * position of the oldest data in the zone.
  * \{
  */
 
