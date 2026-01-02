@@ -41,7 +41,6 @@
  * the limit.
  * \param clamp Pointer to the value to clamp.
  * \param limit The limit to clamp the value to.
- * \returns None.
  */
 static inline void ring_buf_clamp(ring_buf_size_t *clamp,
                                   ring_buf_size_t limit) {
