@@ -110,7 +110,6 @@ struct ring_buf_zone {
 
 /*!
  * \defgroup ring_buf Ring Buffer
- * \ingroup ring_buf
  * \{
  */
 
@@ -195,7 +194,6 @@ void ring_buf_reset(struct ring_buf *buf, ring_buf_ptrdiff_t base);
 
 /*!
  * \defgroup ring_buf_contiguous Contiguous Ring Buffer Access
- * \ingroup ring_buf_contiguous
  * \{
  */
 
@@ -260,7 +258,6 @@ int ring_buf_get_ack(struct ring_buf *buf, ring_buf_size_t size);
 
 /*!
  * \defgroup ring_buf_discontiguous Discontiguous Ring Buffer Access
- * \ingroup ring_buf_discontiguous
  * \{
  */
 
