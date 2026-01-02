@@ -71,7 +71,7 @@ typedef size_t ring_buf_size_t;
 #define RING_BUF_SIZE_MAX ((ring_buf_size_t)PTRDIFF_MIN)
 
 /*!
- * \defgroup ring_buf_zone Ring Buffer Zone
+ * \defgroup ring_buf_zone Ring Buffer Zone Encapsulation
  * \details A ring buffer contains two zones: one for putting data and one for
  * getting data. Each zone has a base, head, and tail pointer. Pointer here
  * refers to a signed zero-based index (i.e. a \c ring_buf_ptrdiff_t type) relative to the
