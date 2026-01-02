@@ -189,7 +189,7 @@ harmonically-sized[^3] buffer space.
 
 How does passive iteration work? Take an example. Assume that a ring
 buffer contains only floating-point numbers. Repeated claims will
-iterate through the *get* zone; a final \f$0\f$-acknowledgement will restore
+iterate through the *get* zone; a final $0$-acknowledgement will restore
 the zone, amounting to a sneaky peek at the buffer’s entire contents.
 See the excerpt below; it sums up the floats.
 
