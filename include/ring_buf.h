@@ -87,7 +87,21 @@ typedef size_t ring_buf_size_t;
  * \note This structure needs to exist within the header.
  */
 struct ring_buf_zone {
-  ring_buf_ptrdiff_t base, head, tail;
+  /*!
+   * \brief Base index of the zone.
+   * \details Marks the starting point of the zone within the ring buffer.
+   */
+  ring_buf_ptrdiff_t base;
+  /*!
+   * \brief Head index of the zone.
+   * \details Marks the end point of the zone within the ring buffer.
+   */
+  ring_buf_ptrdiff_t head;
+  /*!
+   * \brief Tail index of the zone.
+   * \details Marks the position of the oldest data in the zone.
+   */
+  ring_buf_ptrdiff_t tail;
 };
 
 /*!
