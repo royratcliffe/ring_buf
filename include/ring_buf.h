@@ -71,13 +71,12 @@ typedef size_t ring_buf_size_t;
 #define RING_BUF_SIZE_MAX ((ring_buf_size_t)PTRDIFF_MIN)
 
 /*!
- * \defgroup ring_buf_zone Ring Buffer Zone Encapsulation
- * \details A ring buffer contains two zones: one for putting data and one for
- * getting data. Each zone has a base, head, and tail pointer. Pointer here
- * refers to a signed zero-based index (i.e. a \c ring_buf_ptrdiff_t type) relative to the
- * buffer's start. The base pointer marks the beginning of the zone, while the
- * head pointer marks the end of the zone. The tail pointer is used to track the
- * position of the oldest data in the zone.
+ * \defgroup ring_buf_zone Ring Buffer Zone Access
+ * \brief Encapsulates the concept of a ring buffer zone, which includes base,
+ * head, and tail pointers used for managing data within the buffer.
+ * \details A ring buffer zone is a fundamental component of the ring buffer,
+ * representing either the put or get area. Each zone maintains its own set of
+ * pointers to track the state of data within the buffer.
  * \{
  */
 
@@ -208,6 +207,9 @@ void ring_buf_reset(struct ring_buf *buf, ring_buf_ptrdiff_t base);
 
 /*!
  * \defgroup ring_buf_contiguous Contiguous Ring Buffer Access
+ * \brief Functions for contiguous access to ring buffer data.
+ * \details These functions allow for claiming and acknowledging contiguous
+ * space within the ring buffer for both putting and getting data.
  * \{
  */
 
@@ -272,6 +274,9 @@ int ring_buf_get_ack(struct ring_buf *buf, ring_buf_size_t size);
 
 /*!
  * \defgroup ring_buf_discontiguous Discontiguous Ring Buffer Access
+ * \brief Functions for discontiguous access to ring buffer data.
+ * \details These functions allow for putting and getting data that may span
+ * across the end of the ring buffer, handling wrap-around as necessary.
  * \{
  */
 
