@@ -130,11 +130,15 @@ struct ring_buf {
    */
   ring_buf_size_t size;
   /*!
-   * \brief Put and get zones.
-   * \details Contains the zones for putting and getting data in the ring
-   * buffer.
+   * \brief Put zone.
+   * \details Contains the zone for putting data in the ring buffer.
    */
-  struct ring_buf_zone put, get;
+  struct ring_buf_zone put;
+  /*!
+   * \brief Get zone.
+   * \details Contains the zone for getting data in the ring buffer.
+   */
+  struct ring_buf_zone get;
 };
 
 /*!
