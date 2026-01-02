@@ -89,8 +89,11 @@ $(function() {
 <li>easy destructive circularity where a write operation consumes the oldest read when the buffer fills up.</li>
 </ul>
 <p>The implementation language is C99 since the target platform for this kind of collection structure is a memory-limited embedded device of some sort. The C99 code needs access to basic types: fast unsigned and signed integers.</p>
-<p><img src="ring-buf.svg" alt="Ring buffer class diagram" style="pointer-events: none;" class="inline"/></p>
-<p>Find the complete implementation on <a href="https://github.com/royratcliffe/ring_buf">GitHub</a>.</p>
+<div class="image">
+<object type="image/svg+xml" data="ring-buf.svg" style="pointer-events: none;"></object>
+<div class="caption">
+Ring buffer class diagram</div></div>
+    <p>Find the complete implementation on <a href="https://github.com/royratcliffe/ring_buf">GitHub</a>.</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
 Claiming and Acknowledging</h1>
 <ol type="1">
