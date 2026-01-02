@@ -1,0 +1,15 @@
+<map id="src/ring_buf_item.c" name="src/ring_buf_item.c">
+<area shape="rect" id="Node000001" title="Implementation of ring buffer item functions." alt="" coords="117,5,263,31"/>
+<area shape="rect" id="Node000002" href="$ring__buf__item_8h.html" title="Header file for ring buffer item functions." alt="" coords="128,79,252,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,31,193,65,187,65,187,31"/>
+<area shape="rect" id="Node000003" href="$ring__buf_8h.html" title="Ring buffer function prototypes." alt="" coords="147,152,233,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="193,104,193,138,187,138,187,104"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,225,73,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="167,180,78,222,75,217,165,175"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="98,225,181,251"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="184,179,158,216,153,213,179,176"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="205,225,279,251"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="201,176,228,213,223,216,196,179"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="304,225,375,251"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="215,175,304,217,301,222,213,180"/>
+</map>
