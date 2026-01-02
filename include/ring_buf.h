@@ -97,11 +97,13 @@ struct ring_buf_zone {
    * \details Marks the starting point of the zone within the ring buffer.
    */
   ring_buf_ptrdiff_t base;
+
   /*!
    * \brief Head index of the zone.
    * \details Marks the end point of the zone within the ring buffer.
    */
   ring_buf_ptrdiff_t head;
+
   /*!
    * \brief Tail index of the zone.
    * \details Marks the position of the oldest data in the zone.
@@ -130,16 +132,19 @@ struct ring_buf {
    * \details Points to the memory area where the ring buffer's data is stored.
    */
   void *space;
+
   /*!
    * \brief Size of the ring buffer.
    * \details Indicates the total size of the buffer in bytes.
    */
   ring_buf_size_t size;
+
   /*!
    * \brief Put zone.
    * \details Contains the zone for putting data in the ring buffer.
    */
   struct ring_buf_zone put;
+
   /*!
    * \brief Get zone.
    * \details Contains the zone for getting data in the ring buffer.
