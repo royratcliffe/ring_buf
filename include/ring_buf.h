@@ -72,7 +72,6 @@ typedef size_t ring_buf_size_t;
 
 /*!
  * \defgroup ring_buf_zone Ring Buffer Zone
- * \ingroup ring_buf_zone
  * \{
  */
 
