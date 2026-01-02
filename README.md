@@ -33,7 +33,7 @@ kind of collection structure is a memory-limited embedded device of some
 sort. The C99 code needs access to basic types: fast unsigned and signed
 integers.
 
-![Ring buffer class diagram](ring-buf.svg)
+![Ring buffer class diagram](images/ring-buf.svg)
 
 Find the complete implementation on
 [GitHub](https://github.com/royratcliffe/ring_buf).
@@ -61,7 +61,7 @@ cannot span across the end of the buffer space. Buffer size less the put
 zone’s head *clamps* the claim size. It **cannot** exceed the remaining
 contiguous space.
 
-``` c
+```c
 /*!
  * \brief Claims space for putting data into a ring buffer.
  * \details Claims contiguous space. Advances the "put" head.
@@ -85,7 +85,7 @@ ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **space,
 
 Acknowledgement works thus:
 
-``` c
+```c
 /*!
  * \brief Acknowledges space claimed for putting data into a ring buffer.
  * \param buf Ring buffer address.
@@ -113,7 +113,7 @@ The put operation puts as much data in the ring buffer as possible. Its
 answer is the number of bytes successfully buffered. The result may be
 zero bytes or less than the number requested. Implementation below.
 
-``` c
+```c
 /*!
  * \brief Puts non-contiguous bytes into the ring buffer.
  * \details The return value may be less than the given size if the buffer runs
@@ -163,7 +163,7 @@ possible erroneous result if the acknowledgement matches the previous
 claim, or when acknowledging zero since zero is always less than or
 equal to any previous claim.
 
-``` c
+```c
 int ring_buf_put_all(struct ring_buf *buf, const void *data,
                      ring_buf_size_t size) {
   ring_buf_size_t ack = ring_buf_put(buf, data, size);
@@ -193,7 +193,7 @@ iterate through the *get* zone; a final $0$-acknowledgement will restore
 the zone, amounting to a sneaky peek at the buffer’s entire contents.
 See the excerpt below; it sums up the floats.
 
-``` c
+```c
   float sum = 0.0F;
   void *space;
   while ((ring_buf_get_claim(&buf, &space, sizeof(float))))
