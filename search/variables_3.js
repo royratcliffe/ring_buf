@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['size_0',['size',['../structring__buf.html#a21863cd78e19929620191cbe96ec2935',1,'ring_buf']]],
-  ['space_1',['space',['../structring__buf.html#a700577c362b1e92aa5cfbfd184962805',1,'ring_buf']]]
+  ['put_0',['put',['../structring__buf.html#af6fd6be8e31f908881b2eacffe4d6a96',1,'ring_buf']]]
 ];
